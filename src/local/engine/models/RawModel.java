@@ -1,4 +1,4 @@
-package local.engine.render;
+package local.engine.models;
 
 public class RawModel {
 	
