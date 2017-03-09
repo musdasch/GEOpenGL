@@ -1,4 +1,4 @@
-package local.engine.texture;
+package local.engine.textures;
 
 public class ModelTexture {
 	

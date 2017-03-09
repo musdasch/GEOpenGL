@@ -1,6 +1,6 @@
 package local.engine.models;
 
-import local.engine.texture.ModelTexture;
+import local.engine.textures.ModelTexture;
 
 public class TexturedModel {
 	

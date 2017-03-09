@@ -4,11 +4,11 @@ import org.lwjgl.opengl.Display;
 
 import local.engine.models.RawModel;
 import local.engine.models.TexturedModel;
-import local.engine.render.DisplayManager;
-import local.engine.render.Loader;
-import local.engine.render.Renderer;
-import local.engine.shader.StaticShader;
-import local.engine.texture.ModelTexture;
+import local.engine.renderes.DisplayManager;
+import local.engine.renderes.Loader;
+import local.engine.renderes.Renderer;
+import local.engine.shaders.StaticShader;
+import local.engine.textures.ModelTexture;
 
 public class MainGameLoop {
 	
@@ -30,7 +30,14 @@ public class MainGameLoop {
 			3,1,2
 		};
 		
-		RawModel model = loader.loadToVAO(vertices,indices);
+		float[] textureCoords = {
+				0, 0,
+				0, 1,
+				1, 1,
+				1, 0
+		};
+		
+		RawModel model = loader.loadToVAO( vertices, textureCoords, indices );
 		ModelTexture texture = new ModelTexture( loader.loadTexture( "img" ) );
 		TexturedModel texturedModel = new TexturedModel( model, texture );
 		
