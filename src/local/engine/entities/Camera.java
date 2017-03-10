@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 	
-	private static final float SPEED = 0.002f;
+	private static final float SPEED = 0.02f;
 	
 	private Vector3f position;
 	private Vector3f rotation;
