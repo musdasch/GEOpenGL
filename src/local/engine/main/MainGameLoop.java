@@ -47,7 +47,7 @@ public class MainGameLoop {
 				texturedModel,
 				new Vector3f( -0.5f, 0.5f, 0 ),
 				new Vector3f( 0, 0, 0 ),
-				1f
+				new Vector3f( 1f, 1f, 1f )
 		);
 		
 		while(!Display.isCloseRequested()){

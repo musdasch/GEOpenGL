@@ -29,9 +29,7 @@ public class Renderer {
 		
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(
 				entity.getPosition(),
-				entity.getRotX(),
-				entity.getRotY(),
-				entity.getRotZ(),
+				entity.getRotation(),
 				entity.getScale()
 		);
 		
