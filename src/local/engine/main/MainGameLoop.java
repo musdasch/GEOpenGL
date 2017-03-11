@@ -24,13 +24,13 @@ public class MainGameLoop {
 		StaticShader shader = new StaticShader();
 		Renderer renderer = new Renderer( shader );
 		
-		RawModel model = OBJLoader.loadObjModel( "test", loader );
-		ModelTexture texture = new ModelTexture( loader.loadTexture( "img" ) );
+		RawModel model = OBJLoader.loadObjModel( "dragon", loader );
+		ModelTexture texture = new ModelTexture( loader.loadTexture( "dragon" ) );
 		TexturedModel texturedModel = new TexturedModel( model, texture );
 		
 		Entity entity = new Entity(
 				texturedModel,
-				new Vector3f( 0, -2, -20 ),
+				new Vector3f( 0, -4, -20 ),
 				new Vector3f( 0, 0, 0 ),
 				new Vector3f( 1f, 1f, 1f )
 		);
