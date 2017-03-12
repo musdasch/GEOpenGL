@@ -11,6 +11,7 @@ import local.engine.entities.Entity;
 import local.engine.models.RawModel;
 import local.engine.models.TexturedModel;
 import local.engine.shaders.StaticShader;
+import local.engine.textures.ModelTexture;
 import local.engine.utilities.Maths;
 
 public class Renderer {
@@ -37,8 +38,9 @@ public class Renderer {
 	public void render( Entity entity, StaticShader shader ){
 		TexturedModel model = entity.getModel();
 		RawModel rawModel = model.getRawModel();
+		ModelTexture texture = model.getTexture();
 		
-		GL30.glBindVertexArray(rawModel.getVaoID());
+		GL30.glBindVertexArray( rawModel.getVaoID() );
 		GL20.glEnableVertexAttribArray( 0 );
 		GL20.glEnableVertexAttribArray( 1 );
 		GL20.glEnableVertexAttribArray( 2 );
@@ -50,6 +52,7 @@ public class Renderer {
 		);
 		
 		shader.loadTransformationMatrix( transformationMatrix );
+		shader.loadShine( texture.getShineDamper(), texture.getReflectivity() );
 		
 		GL13.glActiveTexture( GL13.GL_TEXTURE0 );
 		GL11.glBindTexture( GL11.GL_TEXTURE_2D, model.getTexture().getID() );

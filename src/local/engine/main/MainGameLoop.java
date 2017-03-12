@@ -31,7 +31,11 @@ public class MainGameLoop {
 		);
 		
 		RawModel model = OBJLoader.loadObjModel( "dragon", loader );
+		
 		ModelTexture texture = new ModelTexture( loader.loadTexture( "dragon" ) );
+		texture.setShineDamper( 10 );
+		texture.setReflectivity( 5 );
+		
 		TexturedModel texturedModel = new TexturedModel( model, texture );
 		
 		Entity entity = new Entity(
