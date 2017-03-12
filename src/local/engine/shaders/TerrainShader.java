@@ -19,6 +19,7 @@ public class TerrainShader extends ShaderProgram{
 	private int location_shineDamper;
 	private int location_reflectivity;
 	private int location_ambianceLight;
+	private int location_tiling;
 	
 	public TerrainShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -41,6 +42,7 @@ public class TerrainShader extends ShaderProgram{
 		location_shineDamper			= super.getUniformLocation( "shineDamper" );
 		location_reflectivity			= super.getUniformLocation( "reflectivity" );
 		location_ambianceLight			= super.getUniformLocation( "ambianceLight" );
+		location_tiling					= super.getUniformLocation( "tiling" );
 	}
 	
 	public void loadTransformationMatrix( Matrix4f matrix ){
@@ -70,6 +72,10 @@ public class TerrainShader extends ShaderProgram{
 	
 	public void loadAmbiance( float ambianceLight ){
 		super.loadFloat( location_ambianceLight, ambianceLight );
+	}
+	
+	public void loadTiling( float tiling ){
+		super.loadFloat( location_tiling, tiling );
 	}
 	
 }

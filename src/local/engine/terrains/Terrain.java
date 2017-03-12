@@ -8,6 +8,7 @@ public class Terrain {
 	
 	private static final float SIZE = 800;
 	private static final int VERTEX_COUNT = 128;
+	public static final float TILING = 40;
 	
 	private float x;
 	private float z;

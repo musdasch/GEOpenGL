@@ -13,12 +13,13 @@ uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
+uniform float tiling;
 
 void main( void ){
 
 	vec4 wordPosition = transformationMatrix * vec4( position, 1.0 );
 	gl_Position = projectionMatrix * viewMatrix * wordPosition;
-	pass_textureCoords = textureCoords;
+	pass_textureCoords = textureCoords * tiling;
 
 	surfaceNormal = ( transformationMatrix * vec4( normal, 0.0 ) ).xyz;
 	toLightVector = lightPosition - wordPosition.xyz;
