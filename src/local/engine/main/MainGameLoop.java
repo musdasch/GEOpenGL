@@ -1,5 +1,9 @@
 package local.engine.main;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -10,8 +14,7 @@ import local.engine.models.RawModel;
 import local.engine.models.TexturedModel;
 import local.engine.renderes.DisplayManager;
 import local.engine.renderes.Loader;
-import local.engine.renderes.Renderer;
-import local.engine.shaders.StaticShader;
+import local.engine.renderes.MasterRenderer;
 import local.engine.textures.ModelTexture;
 import local.engine.utilities.OBJLoader;
 
@@ -22,18 +25,20 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		
-		StaticShader shader = new StaticShader();
+		float ambiance = 0.07f;
 		
-		shader.start();
-		shader.loadAmbiance( 0.07f );
-		shader.stop();
-		
-		Renderer renderer = new Renderer( shader );
-		
-		Light light = new Light(
+		Light sun = new Light(
 				new Vector3f( 0, 10, -20 ),
 				new Vector3f( 0.7f, 0.7f, 0.7f )
 		);
+		
+		Camera camera = new Camera(
+				new Vector3f( 0, 0, 0 ),
+				new Vector3f( 0, 0, 0 )
+		);
+		
+		List<Entity> entities = new ArrayList<Entity>();
+		Random random = new Random();
 		
 		RawModel model = OBJLoader.loadObjModel( "dragon", loader );
 		
@@ -43,36 +48,36 @@ public class MainGameLoop {
 		
 		TexturedModel texturedModel = new TexturedModel( model, texture );
 		
-		Entity entity = new Entity(
-				texturedModel,
-				new Vector3f( 0, -4, -20 ),
-				new Vector3f( 0, 0, 0 ),
-				new Vector3f( 1f, 1f, 1f )
-		);
+		for( int i = 0; i < 200; i++ ){
+			float x = random.nextFloat() * 100 - 50;
+			float y = random.nextFloat() * 100 - 50;
+			float z = random.nextFloat() * -500;
+			
+			entities.add(
+					new Entity(
+							texturedModel,
+							new Vector3f( x, y, z ),
+							new Vector3f( 0, 0, 0 ),
+							new Vector3f( 1, 1, 1 )
+					)
+			);
+		}
 		
-		Camera camera = new Camera(
-				new Vector3f( 0, 0, 0 ),
-				new Vector3f( 0, 0, 0 )
-		);
+		MasterRenderer renderer = new MasterRenderer();
 		
 		while(!Display.isCloseRequested()){
-			
-			entity.increaseRotation( 0, 0.5f, 0 );
 			camera.move();
 			
-			renderer.prepare();
-			shader.start();
+			for( Entity entity : entities ){
+				renderer.processEntity( entity );
+				entity.increaseRotation( 0, 1, 0);
+			}
 			
-			shader.loadViewMatrix( camera );
-			shader.loadLigth( light );
-			renderer.render( entity, shader );
-			
-			shader.stop();
-			
+			renderer.render( sun, camera, ambiance );
 			DisplayManager.updateDisplay();         
 		}
 		
-		shader.cleanUp();
+		renderer.cleanUp();
 		loader.cleanUp();
 		
 		DisplayManager.closeDisplay();

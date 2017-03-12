@@ -1,5 +1,8 @@
 package local.engine.renderes;
 
+import java.util.List;
+import java.util.Map;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -22,7 +25,11 @@ public class Renderer {
 	
 	private Matrix4f projectionMatrix;
 	
+	private StaticShader shader;
+	
 	public Renderer( StaticShader shader ){
+		this.shader = shader;
+		
 		GL11.glEnable( GL11.GL_CULL_FACE );
 		GL11.glCullFace( GL11.GL_BACK );
 		
@@ -32,14 +39,14 @@ public class Renderer {
 		shader.stop();
 	}
 	
+	
 	public void prepare(){
 		GL11.glEnable( GL11.GL_DEPTH_TEST );
 		GL11.glClear( GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT );
 		GL11.glClearColor( 0, 0, 0, 1 );
 	}
-	 
-	public void render( Entity entity, StaticShader shader ){
-		TexturedModel model = entity.getModel();
+	
+	public void prepareTextureModel( TexturedModel model ){
 		RawModel rawModel = model.getRawModel();
 		ModelTexture texture = model.getTexture();
 		
@@ -48,6 +55,12 @@ public class Renderer {
 		GL20.glEnableVertexAttribArray( 1 );
 		GL20.glEnableVertexAttribArray( 2 );
 		
+		GL13.glActiveTexture( GL13.GL_TEXTURE0 );
+		GL11.glBindTexture( GL11.GL_TEXTURE_2D, model.getTexture().getID() );
+		shader.loadShine( texture.getShineDamper(), texture.getReflectivity() );
+	}
+	
+	public void prepareInstance( Entity entity ){
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(
 				entity.getPosition(),
 				entity.getRotation(),
@@ -55,11 +68,28 @@ public class Renderer {
 		);
 		
 		shader.loadTransformationMatrix( transformationMatrix );
-		shader.loadShine( texture.getShineDamper(), texture.getReflectivity() );
-		
-		GL13.glActiveTexture( GL13.GL_TEXTURE0 );
-		GL11.glBindTexture( GL11.GL_TEXTURE_2D, model.getTexture().getID() );
-		GL11.glDrawElements( GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0 );
+	}
+	
+	public void render( Map< TexturedModel, List< Entity > > entities ){
+		for( TexturedModel model : entities.keySet() ){
+			prepareTextureModel( model );
+			List<Entity> batch = entities.get( model );
+			for( Entity entity : batch ){
+				prepareInstance( entity );
+				
+				GL11.glDrawElements(
+						GL11.GL_TRIANGLES,
+						model.getRawModel().getVertexCount(),
+						GL11.GL_UNSIGNED_INT,
+						0
+				);
+			}
+			unbindTextureModel();
+		}
+	}
+	
+	
+	public void unbindTextureModel(){
 		GL20.glDisableVertexAttribArray( 0 );
 		GL20.glDisableVertexAttribArray( 1 );
 		GL20.glDisableVertexAttribArray( 2 );
