@@ -23,10 +23,15 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 		
 		StaticShader shader = new StaticShader();
+		
+		shader.start();
+		shader.loadAmbiance( 0.07f );
+		shader.stop();
+		
 		Renderer renderer = new Renderer( shader );
 		
 		Light light = new Light(
-				new Vector3f( 0, 0, 0 ),
+				new Vector3f( 0, 10, -20 ),
 				new Vector3f( 0.7f, 0.7f, 0.7f )
 		);
 		

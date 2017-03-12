@@ -11,6 +11,8 @@ uniform sampler2D textureSampler;
 uniform vec3 lightColour;
 uniform float shineDamper;
 uniform float reflectivity;
+uniform float ambianceLight;
+
 
 void main( void ){
 
@@ -22,7 +24,7 @@ void main( void ){
 	vec3 reflectedLightDirection = reflect( lightDirection, unitNormal );
 
 	float brightness = dot( unitNormal, unitLightVector );
-	brightness = max( brightness, 0.0 );
+	brightness = max( brightness, ambianceLight );
 
 	float specularFactor = dot( unitCameraVector, reflectedLightDirection );
 	specularFactor = max( specularFactor, 0.0 );
