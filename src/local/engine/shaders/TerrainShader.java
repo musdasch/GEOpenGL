@@ -6,10 +6,10 @@ import local.engine.entities.Camera;
 import local.engine.entities.Light;
 import local.engine.utilities.Maths;
 
-public class StaticShader extends ShaderProgram {
-
-	private static final String VERTEX_FILE = "src/local/engine/shaders/staticVertexShader.glsl";
-	private static final String FRAGMENT_FILE = "src/local/engine/shaders/staticFragmentShader.glsl";
+public class TerrainShader extends ShaderProgram{
+	
+	private static final String VERTEX_FILE = "src/local/engine/shaders/terrainVertexShader.glsl";
+	private static final String FRAGMENT_FILE = "src/local/engine/shaders/terrainFragmentShader.glsl";
 	
 	private int location_transformationMatrix;
 	private int location_viewMatrix;
@@ -20,7 +20,7 @@ public class StaticShader extends ShaderProgram {
 	private int location_reflectivity;
 	private int location_ambianceLight;
 	
-	public StaticShader() {
+	public TerrainShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
 	}
 

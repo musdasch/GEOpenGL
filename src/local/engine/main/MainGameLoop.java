@@ -15,6 +15,7 @@ import local.engine.models.TexturedModel;
 import local.engine.renderes.DisplayManager;
 import local.engine.renderes.Loader;
 import local.engine.renderes.MasterRenderer;
+import local.engine.terrains.Terrain;
 import local.engine.textures.ModelTexture;
 import local.engine.utilities.OBJLoader;
 
@@ -28,17 +29,31 @@ public class MainGameLoop {
 		float ambiance = 0.07f;
 		
 		Light sun = new Light(
-				new Vector3f( 0, 10, -20 ),
-				new Vector3f( 0.7f, 0.7f, 0.7f )
+				new Vector3f( 128, 20, 74 ),
+				new Vector3f( 0.8f, 0.8f, 0.8f )
 		);
 		
 		Camera camera = new Camera(
-				new Vector3f( 0, 0, 0 ),
+				new Vector3f( 128, 10, 128 ),
 				new Vector3f( 0, 0, 0 )
 		);
 		
-		List<Entity> entities = new ArrayList<Entity>();
-		Random random = new Random();
+		Terrain terrain1 = new Terrain(
+				0,
+				0,
+				loader,
+				new ModelTexture(
+						loader.loadTexture( "grass" )
+				)
+		);
+		Terrain terrain2 = new Terrain(
+				1,
+				0,
+				loader,
+				new ModelTexture(
+						loader.loadTexture( "grass" )
+				)
+		);
 		
 		RawModel model = OBJLoader.loadObjModel( "dragon", loader );
 		
@@ -48,30 +63,23 @@ public class MainGameLoop {
 		
 		TexturedModel texturedModel = new TexturedModel( model, texture );
 		
-		for( int i = 0; i < 200; i++ ){
-			float x = random.nextFloat() * 100 - 50;
-			float y = random.nextFloat() * 100 - 50;
-			float z = random.nextFloat() * -500;
-			
-			entities.add(
-					new Entity(
-							texturedModel,
-							new Vector3f( x, y, z ),
-							new Vector3f( 0, 0, 0 ),
-							new Vector3f( 1, 1, 1 )
-					)
-			);
-		}
+		Entity entity = new Entity(
+				texturedModel,
+				new Vector3f( 128, 0, 64 ),
+				new Vector3f( 0, 0, 0 ),
+				new Vector3f( 1, 1, 1 )
+		);
 		
 		MasterRenderer renderer = new MasterRenderer();
 		
 		while(!Display.isCloseRequested()){
 			camera.move();
 			
-			for( Entity entity : entities ){
-				renderer.processEntity( entity );
-				entity.increaseRotation( 0, 1, 0);
-			}
+			renderer.processTerrain( terrain1 );
+			renderer.processTerrain( terrain2 );
+			
+			renderer.processEntity( entity );
+			entity.increaseRotation( 0, 1, 0);
 			
 			renderer.render( sun, camera, ambiance );
 			DisplayManager.updateDisplay();         
