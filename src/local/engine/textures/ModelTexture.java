@@ -1,17 +1,17 @@
 package local.engine.textures;
 
 public class ModelTexture {
-	
+
 	private int textureID;
-	
+
 	private float shineDamper = 1;
 	private float reflectivity = 0;
-	
-	public ModelTexture( int textureID ){
+
+	public ModelTexture(int textureID) {
 		this.textureID = textureID;
 	}
-	
-	public int getID(){
+
+	public int getID() {
 		return this.textureID;
 	}
 

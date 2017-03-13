@@ -18,65 +18,56 @@ import local.engine.textures.ModelTexture;
 import local.engine.utilities.Maths;
 
 public class EntityRenderer {
-	
+
 	private StaticShader shader;
-	
-	public EntityRenderer( StaticShader shader, Matrix4f projectionMatrix ){
+
+	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
 		shader.start();
-		shader.loadProjectionMatrix( projectionMatrix );
+		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
 	}
-	
-	public void prepareTextureModel( TexturedModel model ){
+
+	public void prepareTextureModel(TexturedModel model) {
 		RawModel rawModel = model.getRawModel();
 		ModelTexture texture = model.getTexture();
-		
-		GL30.glBindVertexArray( rawModel.getVaoID() );
-		GL20.glEnableVertexAttribArray( 0 );
-		GL20.glEnableVertexAttribArray( 1 );
-		GL20.glEnableVertexAttribArray( 2 );
-		
-		GL13.glActiveTexture( GL13.GL_TEXTURE0 );
-		GL11.glBindTexture( GL11.GL_TEXTURE_2D, model.getTexture().getID() );
-		shader.loadShine( texture.getShineDamper(), texture.getReflectivity() );
+
+		GL30.glBindVertexArray(rawModel.getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(2);
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
+		shader.loadShine(texture.getShineDamper(), texture.getReflectivity());
 	}
-	
-	public void prepareInstance( Entity entity ){
-		Matrix4f transformationMatrix = Maths.createTransformationMatrix(
-				entity.getPosition(),
-				entity.getRotation(),
-				entity.getScale()
-		);
-		
-		shader.loadTransformationMatrix( transformationMatrix );
+
+	public void prepareInstance(Entity entity) {
+		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotation(),
+				entity.getScale());
+
+		shader.loadTransformationMatrix(transformationMatrix);
 	}
-	
-	public void render( Map< TexturedModel, List< Entity > > entities ){
-		for( TexturedModel model : entities.keySet() ){
-			prepareTextureModel( model );
-			List<Entity> batch = entities.get( model );
-			for( Entity entity : batch ){
-				prepareInstance( entity );
-				
-				GL11.glDrawElements(
-						GL11.GL_TRIANGLES,
-						model.getRawModel().getVertexCount(),
-						GL11.GL_UNSIGNED_INT,
-						0
-				);
+
+	public void render(Map<TexturedModel, List<Entity>> entities) {
+		for (TexturedModel model : entities.keySet()) {
+			prepareTextureModel(model);
+			List<Entity> batch = entities.get(model);
+			for (Entity entity : batch) {
+				prepareInstance(entity);
+
+				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			unbindTextureModel();
 		}
 	}
-	
-	
-	public void unbindTextureModel(){
-		GL20.glDisableVertexAttribArray( 0 );
-		GL20.glDisableVertexAttribArray( 1 );
-		GL20.glDisableVertexAttribArray( 2 );
-		
-		GL30.glBindVertexArray( 0 );
+
+	public void unbindTextureModel() {
+		GL20.glDisableVertexAttribArray(0);
+		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
+
+		GL30.glBindVertexArray(0);
 	}
 
 }
