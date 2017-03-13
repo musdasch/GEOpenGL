@@ -4,7 +4,7 @@ public class MeshDTO {
 
 	private float[] vertices;
 	private float[] normals;
-	private float[] uv;
+	private float[] uvs;
 	private int[] indices;
 
 	public MeshDTO() {
@@ -26,12 +26,12 @@ public class MeshDTO {
 		this.normals = normals;
 	}
 
-	public float[] getUV() {
-		return uv;
+	public float[] getUVs() {
+		return uvs;
 	}
 
-	public void setUV(float[] uv) {
-		this.uv = uv;
+	public void setUVs(float[] uv) {
+		this.uvs = uv;
 	}
 
 	public int[] getIndices() {
@@ -40,5 +40,21 @@ public class MeshDTO {
 
 	public void setIndices(int[] indices) {
 		this.indices = indices;
+	}
+
+	public void addVetice(int index, float vetice) {
+		this.vertices[index] = vetice;
+	}
+
+	public void addNormal(int index, float normal) {
+		this.normals[index] = normal;
+	}
+
+	public void addUV(int index, float uv) {
+
+	}
+
+	public void addIndices(int index, int indice) {
+		this.indices[index] = indice;
 	}
 }

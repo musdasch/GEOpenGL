@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import local.engine.entities.Camera;
 import local.engine.entities.Entity;
 import local.engine.entities.Light;
+import local.engine.files.OBJFile;
 import local.engine.models.RawModel;
 import local.engine.models.TexturedModel;
 import local.engine.renderes.DisplayManager;
@@ -53,11 +54,13 @@ public class MainGameLoop {
 		 * second terrain plain.
 		 */
 		Terrain terrain2 = new Terrain(1, 0, loader, new ModelTexture(loader.loadTexture("grass")));
+		
+		OBJFile objFile = new OBJFile("dragon", loader);
 
 		/**
 		 * Load the mesh dragon for a TexturedModel.
 		 */
-		RawModel model = OBJLoader.loadObjModel("dragon", loader);
+		RawModel model = objFile.process();
 
 		/**
 		 * Load the texture for the dragon mesh.

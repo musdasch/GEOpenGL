@@ -75,7 +75,7 @@ public class OBJLoader {
 		MeshDTO mesh = new MeshDTO();
 		mesh.setIndices(indicesArray);
 		mesh.setVertices(verticesArray);
-		mesh.setUV(textureArray);
+		mesh.setUVs(textureArray);
 		mesh.setNormals(normalsArray);
 
 		return loader.loadToVAO(mesh);

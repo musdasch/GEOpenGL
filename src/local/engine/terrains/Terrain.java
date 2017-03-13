@@ -80,7 +80,7 @@ public class Terrain {
 
 		mesh.setIndices(indices);
 		mesh.setVertices(vertices);
-		mesh.setUV(textureCoords);
+		mesh.setUVs(textureCoords);
 		mesh.setNormals(normals);
 
 		return loader.loadToVAO(mesh);

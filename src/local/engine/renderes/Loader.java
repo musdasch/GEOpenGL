@@ -29,7 +29,7 @@ public class Loader {
 		int vaoID = createVAO();
 		bindIndicesBuffer(mesh.getIndices());
 		storeDataInAttributeList(0, 3, mesh.getVertices());
-		storeDataInAttributeList(1, 2, mesh.getUV());
+		storeDataInAttributeList(1, 2, mesh.getUVs());
 		storeDataInAttributeList(2, 3, mesh.getNormals());
 		unbindVAO();
 		return new RawModel(vaoID, mesh.getIndices().length);
