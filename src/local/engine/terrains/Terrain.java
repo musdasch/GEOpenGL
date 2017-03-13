@@ -1,6 +1,6 @@
 package local.engine.terrains;
 
-import local.engine.models.MeshDTO;
+import local.engine.dtos.MeshDTO;
 import local.engine.models.RawModel;
 import local.engine.renderes.Loader;
 import local.engine.textures.ModelTexture;

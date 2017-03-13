@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import local.engine.models.MeshDTO;
+import local.engine.dtos.MeshDTO;
 import local.engine.models.RawModel;
 
 public class Loader {

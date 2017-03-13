@@ -1,4 +1,4 @@
-package local.engine.models;
+package local.engine.dtos;
 
 public class MeshDTO {
 

@@ -8,7 +8,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import local.engine.models.MeshDTO;
+import local.engine.dtos.MeshDTO;
 import local.engine.models.RawModel;
 import local.engine.renderes.Loader;
 
